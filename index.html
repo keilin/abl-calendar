@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ABL League Events Calendar</title>
+  <style>
+    body { max-width: 720px; margin: 3rem auto; padding: 0 1.25rem; font: 16px/1.55 system-ui, sans-serif; color: #222; }
+    code { overflow-wrap: anywhere; background: #f2f2f2; padding: .15rem .3rem; }
+    a { color: #0759a5; }
+  </style>
+</head>
+<body>
+  <h1>ABL League Events Calendar</h1>
+  <p>Subscribe to the ABL calendar to receive league meetings, draft dates, deadlines, and other administrative events.</p>
+  <h2>Subscribe</h2>
+  <p>Use this calendar feed URL in Apple Calendar, Google Calendar, Outlook, or another app that supports iCalendar subscriptions:</p>
+  <p><a href="abl-events.ics">ABL League Events (.ics)</a></p>
+  <p><code id="feed-url"></code></p>
+  <script>
+    document.getElementById("feed-url").textContent =
+      new URL("abl-events.ics", window.location.href).href;
+  </script>
+  <p><small>The feed is regenerated whenever the event CSV is updated. Calendar apps control how frequently they refresh subscriptions.</small></p>
+</body>
+</html>
