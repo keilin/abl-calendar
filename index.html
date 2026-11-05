@@ -3,24 +3,89 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ABL League Events Calendar</title>
+  <meta name="theme-color" content="#102b4e">
+  <title>ABL | League Calendar</title>
   <style>
-    body { max-width: 720px; margin: 3rem auto; padding: 0 1.25rem; font: 16px/1.55 system-ui, sans-serif; color: #222; }
-    code { overflow-wrap: anywhere; background: #f2f2f2; padding: .15rem .3rem; }
-    a { color: #0759a5; }
+    :root { color-scheme: light; --navy:#102b4e; --red:#c83b43; --ink:#202a36; --muted:#667386; --line:#e2e7ed; --paper:#f5f7fa; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .shell { max-width:860px; margin:0 auto; padding:32px 20px 56px; }
+    header { display:flex; align-items:center; gap:22px; padding:24px; background:var(--navy); color:white; border-radius:14px; }
+    .logo { width:104px; height:104px; object-fit:contain; flex:none; }
+    h1 { margin:0; font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.1; letter-spacing:.02em; }
+    .kicker { margin:0 0 7px; color:#f2b9bc; font-size:.78rem; font-weight:750; letter-spacing:.16em; text-transform:uppercase; }
+    header p:last-child { margin:9px 0 0; color:#d9e2ed; }
+    .subscribe { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; margin:22px 0 28px; padding:18px 20px; background:white; border:1px solid var(--line); border-left:5px solid var(--red); border-radius:10px; }
+    .subscribe h2 { margin:0; font-size:1.08rem; }
+    .subscribe p { margin:3px 0 0; color:var(--muted); font-size:.9rem; }
+    .button { display:inline-block; padding:10px 16px; border-radius:7px; background:var(--red); color:white; font-weight:700; text-decoration:none; white-space:nowrap; }
+    h2.section-title { margin:0 0 12px; font-size:1.35rem; }
+    #events { display:grid; gap:10px; }
+    .event { display:grid; grid-template-columns:86px 1fr; gap:16px; padding:16px 18px; background:white; border:1px solid var(--line); border-radius:9px; }
+    .date { color:var(--navy); font-weight:800; text-align:center; line-height:1.15; }
+    .date .month { display:block; color:var(--red); font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; }
+    .date .day { display:block; margin-top:3px; font-size:1.8rem; }
+    .event h3 { margin:0; font-size:1.04rem; line-height:1.3; }
+    .meta { margin:4px 0 0; color:var(--muted); font-size:.88rem; }
+    .description { margin:6px 0 0; font-size:.92rem; }
+    .empty,.error { padding:20px; background:white; border:1px solid var(--line); border-radius:9px; color:var(--muted); }
+    footer { margin-top:28px; color:var(--muted); font-size:.82rem; }
+    code { overflow-wrap:anywhere; }
+    @media (max-width:520px) { .shell{padding:16px 12px 36px} header{gap:14px;padding:18px} .logo{width:72px;height:72px} .event{grid-template-columns:65px 1fr;padding:13px} }
   </style>
 </head>
 <body>
-  <h1>ABL League Events Calendar</h1>
-  <p>Subscribe to the ABL calendar to receive league meetings, draft dates, deadlines, and other administrative events.</p>
-  <h2>Subscribe</h2>
-  <p>Use this calendar feed URL in Apple Calendar, Google Calendar, Outlook, or another app that supports iCalendar subscriptions:</p>
-  <p><a href="abl-events.ics">ABL League Events (.ics)</a></p>
-  <p><code id="feed-url"></code></p>
+  <main class="shell">
+    <header>
+      <img class="logo" src="logo.jpg" alt="ABL logo" onerror="this.hidden=true">
+      <div><p class="kicker">Amateur Baseball League</p><h1>League Calendar</h1><p>Upcoming drafts, deadlines, meetings, and league milestones.</p></div>
+    </header>
+    <section class="subscribe" aria-label="Calendar subscription">
+      <div><h2>Subscribe to the ABL calendar</h2><p>Add the feed to Apple Calendar, Google Calendar, Outlook, or another calendar app.</p></div>
+      <a class="button" href="abl-events.ics">Subscribe (.ics)</a>
+    </section>
+    <h2 class="section-title">Upcoming events</h2>
+    <section id="events" aria-live="polite"><p class="empty">Loading upcoming events…</p></section>
+    <footer>Times are shown in Pacific Time. The calendar feed and this event list are generated from the league event schedule. <span id="feed-url"></span></footer>
+  </main>
   <script>
-    document.getElementById("feed-url").textContent =
-      new URL("abl-events.ics", window.location.href).href;
+    const container = document.getElementById("events");
+    const dateFmt = new Intl.DateTimeFormat("en-US", { timeZone:"America/Los_Angeles", weekday:"short", month:"short", day:"numeric", year:"numeric" });
+    const timeFmt = new Intl.DateTimeFormat("en-US", { timeZone:"America/Los_Angeles", hour:"numeric", minute:"2-digit" });
+    function dateParts(value) {
+      const parts = new Intl.DateTimeFormat("en-US", {timeZone:"America/Los_Angeles",month:"short",day:"numeric"}).formatToParts(new Date(value));
+      return Object.fromEntries(parts.map(p => [p.type,p.value]));
+    }
+    function el(tag, cls, text) { const node=document.createElement(tag); if(cls) node.className=cls; if(text) node.textContent=text; return node; }
+    function render(events) {
+      const now = Date.now();
+      const upcoming = events.filter(e => e.status !== "CANCELLED" && (e.all_day ? new Date(e.end+"T23:59:59").getTime() >= now : new Date(e.end).getTime() >= now))
+        .sort((a,b) => new Date(a.start)-new Date(b.start));
+      container.replaceChildren();
+      if (!upcoming.length) { container.append(el("p","empty","There are no upcoming events currently listed.")); return; }
+      for (const event of upcoming) {
+        const card=el("article","event"), date=el("div","date");
+        if(event.all_day) {
+          const parts=dateParts(event.start+"T12:00:00");
+          date.append(el("span","month",parts.month),el("span","day",parts.day));
+        } else {
+          const parts=dateParts(event.start);
+          date.append(el("span","month",parts.month),el("span","day",parts.day));
+        }
+        const body=el("div","");
+        body.append(el("h3","",event.title));
+        let meta = event.all_day ? dateFmt.format(new Date(event.start+"T12:00:00"))+" · All day" : dateFmt.format(new Date(event.start))+" · "+timeFmt.format(new Date(event.start));
+        if (!event.all_day && new Date(event.end)-new Date(event.start) > 60000) meta += "–"+timeFmt.format(new Date(event.end));
+        if(event.category) meta += " · "+event.category;
+        body.append(el("p","meta",meta));
+        if(event.description) body.append(el("p","description",event.description));
+        if(event.location) body.append(el("p","meta",event.location));
+        card.append(date,body); container.append(card);
+      }
+    }
+    document.getElementById("feed-url").textContent = new URL("abl-events.ics",location.href).href;
+    fetch("events.json").then(r => { if(!r.ok) throw new Error("Could not load event data"); return r.json(); })
+      .then(render).catch(() => { container.replaceChildren(el("p","error","The event list could not be loaded. The calendar subscription link is still available above.")); });
   </script>
-  <p><small>The feed is regenerated whenever the event CSV is updated. Calendar apps control how frequently they refresh subscriptions.</small></p>
 </body>
 </html>
