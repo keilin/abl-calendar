@@ -1,0 +1,8 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ABL//League Events//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:ABL League Events
+X-WR-CALDESC:Meetings, drafts, deadlines, and other ABL league events
+END:VCALENDAR
