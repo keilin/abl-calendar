@@ -1,1 +1,3 @@
 id,title,description,start,end,all_day,timezone,location,category,status
+2027-annual-draft,ABL Annual Draft,Annual player draft,2027-01-23T08:00,2027-01-23T14:00,false,America/Los_Angeles,Online,Draft,CONFIRMED
+2027-winter-meeting,Winter Meeting,Annual league meeting,2026-11-22T15:30,2026-11-22T17:00,false,America/Los_Angeles,Online,Meeting,TENTATIVE
