@@ -16,5 +16,24 @@ id,title,description,start,end,all_day,timezone,location,category,status
 2026-yearbook-article-deadline,Yearbook Article Submission Deadline,Deadline to submit yearbook articles,2026-12-15T19:00,2026-12-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
 2027-free-agent-draft,Free Agent Draft Day,Free agent draft,2027-01-30T19:00,2027-01-30T20:00,false,America/Los_Angeles,Online,Draft,CONFIRMED
 2027-spring-training-deadline,Spring Training Games Deadline,Deadline to complete spring training games,2027-02-03T19:00,2027-02-03T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-03T19:00,2027-02-03T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
 2027-regular-season-begins,Regular Season Begins,Beginning of the ABL regular season,2027-02-05T19:00,2027-02-05T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED
+2027-taxi-teams-deadline-2027-02-04,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-04T19:00,2027-02-04T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-02-18,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-18T19:00,2027-02-18T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-03-04,Taxi Teams Deadline,Deadline for taxi team submissions,2027-03-04T19:00,2027-03-04T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-03-18,Taxi Teams Deadline,Deadline for taxi team submissions,2027-03-18T19:00,2027-03-18T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-04-01,Taxi Teams Deadline,Deadline for taxi team submissions,2027-04-01T19:00,2027-04-01T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-04-15,Taxi Teams Deadline,Deadline for taxi team submissions,2027-04-15T19:00,2027-04-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-04-29,Taxi Teams Deadline,Deadline for taxi team submissions,2027-04-29T19:00,2027-04-29T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-05-13,Taxi Teams Deadline,Deadline for taxi team submissions,2027-05-13T19:00,2027-05-13T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-05-27,Taxi Teams Deadline,Deadline for taxi team submissions,2027-05-27T19:00,2027-05-27T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-06-10,Taxi Teams Deadline,Deadline for taxi team submissions,2027-06-10T19:00,2027-06-10T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-06-24,Taxi Teams Deadline,Deadline for taxi team submissions,2027-06-24T19:00,2027-06-24T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-07-08,Taxi Teams Deadline,Deadline for taxi team submissions,2027-07-08T19:00,2027-07-08T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-07-22,Taxi Teams Deadline,Deadline for taxi team submissions,2027-07-22T19:00,2027-07-22T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-08-05,Taxi Teams Deadline,Deadline for taxi team submissions,2027-08-05T19:00,2027-08-05T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-08-19,Taxi Teams Deadline,Deadline for taxi team submissions,2027-08-19T19:00,2027-08-19T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-09-02,Taxi Teams Deadline,Deadline for taxi team submissions,2027-09-02T19:00,2027-09-02T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-09-16,Taxi Teams Deadline,Deadline for taxi team submissions,2027-09-16T19:00,2027-09-16T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-09-30,Taxi Teams Deadline,Deadline for taxi team submissions,2027-09-30T19:00,2027-09-30T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-10-14,Taxi Teams Deadline,Deadline for taxi team submissions,2027-10-14T19:00,2027-10-14T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline-2027-10-28,Taxi Teams Deadline,Deadline for taxi team submissions,2027-10-28T19:00,2027-10-28T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
