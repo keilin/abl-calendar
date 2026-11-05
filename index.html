@@ -38,7 +38,7 @@
   <main class="shell">
     <header>
       <img class="logo" src="logo.jpg" alt="ABL logo" onerror="this.hidden=true">
-      <div><p class="kicker">Amateur Baseball League</p><h1>League Calendar</h1><p>Upcoming drafts, deadlines, meetings, and league milestones.</p></div>
+      <div><p class="kicker">American Baseball League</p><h1>League Calendar</h1><p>Upcoming drafts, deadlines, meetings, and league milestones.</p></div>
     </header>
     <section class="subscribe" aria-label="Calendar subscription">
       <div><h2>Subscribe to the ABL calendar</h2><p>Add the feed to Apple Calendar, Google Calendar, Outlook, or another calendar app.</p></div>
@@ -46,14 +46,16 @@
     </section>
     <h2 class="section-title">Upcoming events</h2>
     <section id="events" aria-live="polite"><p class="empty">Loading upcoming events…</p></section>
-    <footer>Times are shown in Pacific Time. The calendar feed and this event list are generated from the league event schedule. <span id="feed-url"></span></footer>
+    <footer><span id="feed-url"></span></footer>
   </main>
   <script>
     const container = document.getElementById("events");
-    const dateFmt = new Intl.DateTimeFormat("en-US", { timeZone:"America/Los_Angeles", weekday:"short", month:"short", day:"numeric", year:"numeric" });
-    const timeFmt = new Intl.DateTimeFormat("en-US", { timeZone:"America/Los_Angeles", hour:"numeric", minute:"2-digit" });
+    // Omitting timeZone makes Intl use the visitor's browser/system timezone.
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const dateFmt = new Intl.DateTimeFormat(undefined, { weekday:"short", month:"short", day:"numeric", year:"numeric" });
+    const timeFmt = new Intl.DateTimeFormat(undefined, { hour:"numeric", minute:"2-digit" });
     function dateParts(value) {
-      const parts = new Intl.DateTimeFormat("en-US", {timeZone:"America/Los_Angeles",month:"short",day:"numeric"}).formatToParts(new Date(value));
+      const parts = new Intl.DateTimeFormat(undefined, {month:"short",day:"numeric"}).formatToParts(new Date(value));
       return Object.fromEntries(parts.map(p => [p.type,p.value]));
     }
     function el(tag, cls, text) { const node=document.createElement(tag); if(cls) node.className=cls; if(text) node.textContent=text; return node; }
@@ -83,6 +85,7 @@
         card.append(date,body); container.append(card);
       }
     }
+    document.querySelector("footer").firstChild.textContent = `Times are shown in your browser's timezone (${browserTimeZone}). The calendar feed and this event list are generated from the league event schedule. `;
     document.getElementById("feed-url").textContent = new URL("abl-events.ics",location.href).href;
     fetch("events.json").then(r => { if(!r.ok) throw new Error("Could not load event data"); return r.json(); })
       .then(render).catch(() => { container.replaceChildren(el("p","error","The event list could not be loaded. The calendar subscription link is still available above.")); });
