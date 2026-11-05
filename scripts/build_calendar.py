@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Build a standards-compliant ABL iCalendar feed from events.csv."""
+"""Build a standards-compliant ABL iCalendar feed and JSON event list from events.csv."""
 from __future__ import annotations
 
 import csv
+import json
 import os
 import re
 import sys
@@ -140,7 +141,20 @@ def build():
     lines.append("END:VCALENDAR")
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_bytes(("".join(fold_line(line) + "\r\n" for line in lines)).encode("utf-8"))
-    print(f"Wrote {OUTPUT} with {len(events)} event(s)")
+
+    json_events = []
+    for event in events:
+        json_events.append({
+            "id": event["id"], "title": event["title"],
+            "description": event["description"],
+            "start": event["start"].isoformat(),
+            "end": event["end"].isoformat(),
+            "all_day": event["all_day"], "location": event["location"],
+            "category": event["category"], "status": event["status"],
+        })
+    json_path = OUTPUT.parent / "events.json"
+    json_path.write_text(json.dumps(json_events, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"Wrote {OUTPUT} and {json_path} with {len(events)} event(s)")
 
 if __name__ == "__main__":
     try:
