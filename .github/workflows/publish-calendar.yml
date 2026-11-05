@@ -6,6 +6,8 @@ on:
     paths:
       - "events.csv"
       - "scripts/**"
+      - "index.html"
+      - "logo.jpg"
       - "site/**"
       - ".github/workflows/publish-calendar.yml"
   workflow_dispatch:
@@ -31,11 +33,13 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Generate calendar feed
+      - name: Generate calendar feed and event data
         run: python scripts/build_calendar.py
 
       - name: Prepare Pages artifact
-        run: cp index.html site/index.html
+        run: |
+          cp index.html site/index.html
+          if [ -f logo.jpg ]; then cp logo.jpg site/logo.jpg; fi
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
