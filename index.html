@@ -76,6 +76,7 @@
 </head>
 <body>
   <main class="shell">
+    <div id="header-sentinel" aria-hidden="true"></div>
     <header>
       <img class="logo" src="logo.jpg" alt="ABL logo" onerror="this.hidden=true">
       <div><p class="kicker">American Baseball League</p><h1>League Calendar</h1><p>Upcoming drafts, deadlines, meetings, and league milestones.</p></div>
@@ -109,16 +110,11 @@
   </main>
   <script>
     const stickyHeader = document.querySelector("header");
-    const compactThreshold = stickyHeader.offsetTop + 8;
-    let headerIsCompact = false;
-    function updateHeaderSize() {
-      const scrollY = window.scrollY;
-      if (!headerIsCompact && scrollY > compactThreshold + 4) headerIsCompact = true;
-      else if (headerIsCompact && scrollY < compactThreshold - 4) headerIsCompact = false;
-      stickyHeader.classList.toggle("compact",headerIsCompact);
-    }
-    window.addEventListener("scroll",updateHeaderSize,{passive:true});
-    updateHeaderSize();
+    const headerSentinel = document.getElementById("header-sentinel");
+    const headerObserver = new IntersectionObserver(([entry]) => {
+      stickyHeader.classList.toggle("compact",!entry.isIntersecting);
+    }, { rootMargin:"-8px 0px 0px 0px",threshold:0 });
+    headerObserver.observe(headerSentinel);
     const container = document.getElementById("events");
     // Omitting timeZone makes Intl use the visitor's browser/system timezone.
     const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
