@@ -129,14 +129,14 @@
     function dayStart(date) { return new Date(date.getFullYear(),date.getMonth(),date.getDate()); }
     function sameDay(a,b) { return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
     function countdown(event,now) {
-      if(eventStart(event)<=now && eventEnd(event)>=now) return "In progress";
+      if(eventStart(event)<=now && eventEnd(event)>now) return "In progress";
       const days=Math.round((dayStart(eventStart(event))-dayStart(now))/86400000);
       if(days===0) return "Today";
       if(days===1) return "Tomorrow";
       return `In ${days} days`;
     }
-    function updateNextEvent() {
-      const next=upcomingEvents[0];
+    function updateNextEvent(filtered) {
+      const next=filtered[0];
       if(!next) { nextEventBox.classList.add("hidden"); return; }
       nextEventBox.classList.remove("hidden");
       nextEventBox.replaceChildren();
@@ -184,7 +184,7 @@
         const date=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i);
         const cell=el("div","day-cell"+(date.getMonth()!==month?" outside":"")+(sameDay(date,today)?" today":""));
         cell.append(el("div","day-number",String(date.getDate())));
-        const dayEvents=filtered.filter(event=>dayStart(eventStart(event))<=date && dayStart(eventEnd(event))>=date);
+        const dayEvents=filtered.filter(event=>dayStart(eventStart(event))<=date && eventEnd(event)>date);
         for(const event of dayEvents.slice(0,3)) {
           const item=el("div","calendar-event"+(event.category==="Deadline"?" deadline":""),
             (event.all_day?"":timeFmt.format(eventStart(event))+" ")+event.title);
@@ -202,6 +202,7 @@
       const filtered=activeFilters();
       const rangeLabel=selectedRange==="all"?"all upcoming":`next ${selectedRange} days`;
       filterCount.textContent=`Showing ${filtered.length} of ${upcomingEvents.length} upcoming events · ${rangeLabel}`;
+      updateNextEvent(filtered);
       if(currentView==="list") renderList(filtered); else renderMonth(filtered);
     }
     function render(events) {
@@ -214,7 +215,6 @@
       for(const category of categories) {
         const chip=el("button","chip",category); chip.dataset.category=category; chip.setAttribute("aria-pressed","false"); categoryChips.append(chip);
       }
-      updateNextEvent();
       applyFilters();
     }
     searchInput.addEventListener("input",applyFilters);
