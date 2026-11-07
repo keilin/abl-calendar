@@ -26,13 +26,37 @@
     .button.copy:focus-visible { outline:2px solid var(--red); outline-offset:2px; }
     #copy-status { flex-basis:auto; color:var(--muted); font-size:.72rem; text-align:left; }
     h2.section-title { margin:0 0 12px; font-size:1.35rem; }
-    .filters { display:grid; grid-template-columns:minmax(180px,1fr) minmax(150px,220px) auto; gap:10px; align-items:center; margin:0 0 14px; padding:12px; background:white; border:1px solid var(--line); border-radius:9px; }
-    .filters input,.filters select,.filters button { min-width:0; height:40px; padding:8px 11px; border:1px solid #cbd3dd; border-radius:6px; background:white; color:var(--ink); font:inherit; }
-    .filters button { cursor:pointer; font-weight:650; }
-    .filters button:hover { background:var(--paper); }
-    #filter-count { grid-column:1 / -1; color:var(--muted); font-size:.8rem; }
+    .filters { display:grid; gap:11px; margin:0 0 14px; padding:13px; background:white; border:1px solid var(--line); border-radius:9px; }
+    .filter-row { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
+    .filters input { flex:1 1 220px; min-width:0; height:40px; padding:8px 11px; border:1px solid #cbd3dd; border-radius:6px; background:white; color:var(--ink); font:inherit; }
+    .filter-label { flex:0 0 76px; color:var(--muted); font-size:.78rem; font-weight:750; text-transform:uppercase; letter-spacing:.04em; }
+    .chip,.filters button,.view-button { min-height:34px; padding:6px 11px; border:1px solid #cbd3dd; border-radius:18px; background:white; color:var(--ink); font:inherit; font-size:.84rem; cursor:pointer; }
+    .chip[aria-pressed="true"],.view-button[aria-pressed="true"] { border-color:var(--navy); background:var(--navy); color:white; }
+    .chip:hover,.filters button:hover,.view-button:hover { border-color:var(--navy); }
+    #clear-filters { margin-left:auto; border-radius:6px; font-weight:650; }
+    #filter-count { color:var(--muted); font-size:.8rem; }
+    .view-controls { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 12px; }
+    .view-switch,.month-nav { display:flex; align-items:center; gap:6px; }
+    .month-nav button { width:34px; height:34px; border:1px solid var(--line); border-radius:6px; background:white; cursor:pointer; font-size:1.1rem; }
+    #month-label { min-width:132px; text-align:center; font-weight:750; }
     #events { display:grid; gap:10px; }
+    .next-event { margin:0 0 14px; padding:13px 16px; border:1px solid #d9b7b9; border-left:4px solid var(--red); border-radius:8px; background:#fff; }
+    .next-event strong { display:block; color:var(--red); font-size:.75rem; letter-spacing:.07em; text-transform:uppercase; }
+    .next-event p { margin:2px 0 0; font-weight:750; }
+    .next-event small { color:var(--muted); }
     .event { display:grid; grid-template-columns:86px 1fr; gap:16px; padding:16px 18px; background:white; border:1px solid var(--line); border-radius:9px; }
+    .event.is-next { border-color:var(--red); box-shadow:inset 3px 0 var(--red); }
+    .month-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:5px; }
+    .weekday { padding:5px 2px; color:var(--muted); text-align:center; font-size:.75rem; font-weight:750; }
+    .day-cell { min-height:104px; padding:6px; overflow:hidden; background:white; border:1px solid var(--line); border-radius:6px; }
+    .day-cell.outside { background:#f0f2f5; color:#9aa3af; }
+    .day-cell.today { border-color:var(--red); }
+    .day-number { margin-bottom:4px; font-size:.78rem; font-weight:800; }
+    .calendar-event { display:block; margin:3px 0; padding:3px 4px; overflow:hidden; border-radius:4px; background:#eaf0f7; color:var(--navy); font-size:.68rem; line-height:1.25; text-overflow:ellipsis; }
+    .calendar-event.deadline { background:#fbeaec; color:#9d2830; }
+    .calendar-event:focus { outline:2px solid var(--navy); }
+    .calendar-more { color:var(--muted); font-size:.65rem; }
+    .hidden { display:none !important; }
     .date { color:var(--navy); font-weight:800; text-align:center; line-height:1.15; }
     .date .month { display:block; color:var(--red); font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; }
     .date .day { display:block; margin-top:3px; font-size:1.8rem; }
@@ -42,7 +66,7 @@
     .empty,.error { padding:20px; background:white; border:1px solid var(--line); border-radius:9px; color:var(--muted); }
     footer { margin-top:28px; color:var(--muted); font-size:.82rem; }
     code { overflow-wrap:anywhere; }
-    @media (max-width:520px) { .shell{padding:16px 12px 36px} header{gap:14px;padding:18px} .logo{width:72px;height:72px} .event{grid-template-columns:65px 1fr;padding:13px} .filters{grid-template-columns:1fr 1fr} .filters input{grid-column:1 / -1} }
+    @media (max-width:520px) { .shell{padding:16px 12px 36px} header{gap:14px;padding:18px} .logo{width:72px;height:72px} .event{grid-template-columns:65px 1fr;padding:13px} .filter-label{flex-basis:100%;} .day-cell{min-height:78px;padding:3px;} .calendar-event{font-size:.58rem;padding:2px;} .month-grid{gap:2px;} .view-controls{align-items:flex-start;flex-direction:column;} }
   </style>
 </head>
 <body>
@@ -57,11 +81,24 @@
     </section>
     <h2 class="section-title">Upcoming events</h2>
     <div class="filters" role="search" aria-label="Filter upcoming events">
-      <input id="event-search" type="search" placeholder="Search events…" aria-label="Search event names and details">
-      <select id="category-filter" aria-label="Filter by category"><option value="">All categories</option></select>
-      <button id="clear-filters" type="button">Clear</button>
+      <div class="filter-row"><input id="event-search" type="search" placeholder="Search events…" aria-label="Search event names and details"><button id="clear-filters" type="button">Clear filters</button></div>
+      <div class="filter-row" id="date-chips" aria-label="Filter by date">
+        <span class="filter-label">Date range</span>
+        <button class="chip" data-range="all" aria-pressed="true">All upcoming</button>
+        <button class="chip" data-range="30" aria-pressed="false">Next 30 days</button>
+        <button class="chip" data-range="90" aria-pressed="false">Next 90 days</button>
+      </div>
+      <div class="filter-row" id="category-chips" aria-label="Filter by event type"><span class="filter-label">Event type</span></div>
       <span id="filter-count" aria-live="polite"></span>
     </div>
+    <div class="view-controls">
+      <div class="view-switch" role="group" aria-label="Calendar display">
+        <button class="view-button" id="list-view" aria-pressed="true">List</button>
+        <button class="view-button" id="month-view" aria-pressed="false">Month</button>
+      </div>
+      <div class="month-nav hidden" id="month-nav"><button id="prev-month" type="button" aria-label="Previous month">‹</button><span id="month-label"></span><button id="next-month" type="button" aria-label="Next month">›</button></div>
+    </div>
+    <section id="next-event" class="next-event hidden" aria-label="Next upcoming event"></section>
     <section id="events" aria-live="polite"><p class="empty">Loading upcoming events…</p></section>
     <footer><span id="feed-url"></span></footer>
   </main>
@@ -77,50 +114,136 @@
     }
     function el(tag, cls, text) { const node=document.createElement(tag); if(cls) node.className=cls; if(text) node.textContent=text; return node; }
     let upcomingEvents = [];
+    let selectedRange = "all";
+    let selectedCategory = "";
+    let currentView = "list";
+    let viewedMonth = new Date(new Date().getFullYear(),new Date().getMonth(),1);
     const searchInput = document.getElementById("event-search");
-    const categoryFilter = document.getElementById("category-filter");
     const filterCount = document.getElementById("filter-count");
-    function applyFilters() {
-      const query = searchInput.value.trim().toLocaleLowerCase();
-      const category = categoryFilter.value;
-      const filtered = upcomingEvents.filter(event => {
-        const searchable = [event.title,event.description,event.location,event.category].filter(Boolean).join(" ").toLocaleLowerCase();
-        return (!query || searchable.includes(query)) && (!category || event.category === category);
+    const categoryChips = document.getElementById("category-chips");
+    const nextEventBox = document.getElementById("next-event");
+    const monthNav = document.getElementById("month-nav");
+    const monthLabel = document.getElementById("month-label");
+    function eventStart(event) { return event.all_day ? new Date(event.start+"T00:00:00") : new Date(event.start); }
+    function eventEnd(event) { return event.all_day ? new Date(event.end+"T00:00:00") : new Date(event.end); }
+    function dayStart(date) { return new Date(date.getFullYear(),date.getMonth(),date.getDate()); }
+    function sameDay(a,b) { return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+    function countdown(event,now) {
+      if(eventStart(event)<=now && eventEnd(event)>=now) return "In progress";
+      const days=Math.round((dayStart(eventStart(event))-dayStart(now))/86400000);
+      if(days===0) return "Today";
+      if(days===1) return "Tomorrow";
+      return `In ${days} days`;
+    }
+    function updateNextEvent() {
+      const next=upcomingEvents[0];
+      if(!next) { nextEventBox.classList.add("hidden"); return; }
+      nextEventBox.classList.remove("hidden");
+      nextEventBox.replaceChildren();
+      nextEventBox.append(el("strong","", "Next up · "+countdown(next,new Date())));
+      nextEventBox.append(el("p","",next.title));
+      const detail=next.all_day ? dateFmt.format(eventStart(next))+" · All day" : dateFmt.format(eventStart(next))+" · "+timeFmt.format(eventStart(next));
+      nextEventBox.append(el("small","",detail));
+    }
+    function activeFilters() {
+      const query=searchInput.value.trim().toLocaleLowerCase();
+      const now=new Date();
+      const limit=selectedRange==="all" ? null : new Date(now.getTime()+Number(selectedRange)*86400000);
+      return upcomingEvents.filter(event=>{
+        const searchable=[event.title,event.description,event.location,event.category].filter(Boolean).join(" ").toLocaleLowerCase();
+        const inRange=!limit || eventStart(event)<=limit;
+        return (!query || searchable.includes(query)) && (!selectedCategory || event.category===selectedCategory) && inRange;
       });
-      filterCount.textContent = `Showing ${filtered.length} of ${upcomingEvents.length} upcoming events`;
+    }
+    function renderList(filtered) {
       container.replaceChildren();
-      if (!filtered.length) { container.append(el("p","empty",upcomingEvents.length ? "No events match those filters." : "There are no upcoming events currently listed.")); return; }
-      for (const event of filtered) {
-        const card=el("article","event"), date=el("div","date");
-        if(event.all_day) {
-          const parts=dateParts(event.start+"T12:00:00");
-          date.append(el("span","month",parts.month),el("span","day",parts.day));
-        } else {
-          const parts=dateParts(event.start);
-          date.append(el("span","month",parts.month),el("span","day",parts.day));
-        }
+      if(!filtered.length) { container.append(el("p","empty",upcomingEvents.length ? "No events match those filters." : "There are no upcoming events currently listed.")); return; }
+      for(const event of filtered) {
+        const card=el("article","event"+(event===upcomingEvents[0] ? " is-next" : "")), date=el("div","date");
+        const parts=dateParts(event.all_day ? event.start+"T12:00:00" : event.start);
+        date.append(el("span","month",parts.month),el("span","day",parts.day));
         const body=el("div","");
         body.append(el("h3","",event.title));
-        let meta = event.all_day ? dateFmt.format(new Date(event.start+"T12:00:00"))+" · All day" : dateFmt.format(new Date(event.start))+" · "+timeFmt.format(new Date(event.start));
-        if (!event.all_day && new Date(event.end)-new Date(event.start) > 60000) meta += "–"+timeFmt.format(new Date(event.end));
-        if(event.category) meta += " · "+event.category;
+        let meta=event.all_day ? dateFmt.format(eventStart(event))+" · All day" : dateFmt.format(eventStart(event))+" · "+timeFmt.format(eventStart(event));
+        if(!event.all_day && eventEnd(event)-eventStart(event)>60000) meta+="–"+timeFmt.format(eventEnd(event));
+        if(event.category) meta+=" · "+event.category;
         body.append(el("p","meta",meta));
         if(event.description) body.append(el("p","description",event.description));
         if(event.location) body.append(el("p","meta",event.location));
         card.append(date,body); container.append(card);
       }
     }
+    function renderMonth(filtered) {
+      container.replaceChildren();
+      const year=viewedMonth.getFullYear(), month=viewedMonth.getMonth();
+      monthLabel.textContent=new Intl.DateTimeFormat(undefined,{month:"long",year:"numeric"}).format(viewedMonth);
+      const grid=el("div","month-grid");
+      for(const day of ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]) grid.append(el("div","weekday",day));
+      const first=new Date(year,month,1), start=new Date(year,month,1-first.getDay()), today=dayStart(new Date());
+      for(let i=0;i<42;i++) {
+        const date=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i);
+        const cell=el("div","day-cell"+(date.getMonth()!==month?" outside":"")+(sameDay(date,today)?" today":""));
+        cell.append(el("div","day-number",String(date.getDate())));
+        const dayEvents=filtered.filter(event=>dayStart(eventStart(event))<=date && dayStart(eventEnd(event))>=date);
+        for(const event of dayEvents.slice(0,3)) {
+          const item=el("div","calendar-event"+(event.category==="Deadline"?" deadline":""),
+            (event.all_day?"":timeFmt.format(eventStart(event))+" ")+event.title);
+          item.title=event.title+(event.category?" · "+event.category:"");
+          cell.append(item);
+        }
+        if(dayEvents.length>3) cell.append(el("div","calendar-more",`+${dayEvents.length-3} more`));
+        grid.append(cell);
+      }
+      container.append(grid);
+      if(!filtered.some(event=>eventStart(event).getMonth()===month && eventStart(event).getFullYear()===year))
+        container.append(el("p","meta","No matching events begin in this month."));
+    }
+    function applyFilters() {
+      const filtered=activeFilters();
+      const rangeLabel=selectedRange==="all"?"all upcoming":`next ${selectedRange} days`;
+      filterCount.textContent=`Showing ${filtered.length} of ${upcomingEvents.length} upcoming events · ${rangeLabel}`;
+      if(currentView==="list") renderList(filtered); else renderMonth(filtered);
+    }
     function render(events) {
-      const now = Date.now();
-      upcomingEvents = events.filter(e => e.status !== "CANCELLED" && (e.all_day ? new Date(e.end+"T23:59:59").getTime() >= now : new Date(e.end).getTime() >= now))
-        .sort((a,b) => { const startA=a.all_day ? new Date(a.start+"T00:00:00") : new Date(a.start); const startB=b.all_day ? new Date(b.start+"T00:00:00") : new Date(b.start); return startA-startB || a.title.localeCompare(b.title); });
-      const categories = [...new Set(upcomingEvents.map(e => e.category).filter(Boolean))].sort((a,b) => a.localeCompare(b));
-      for (const category of categories) categoryFilter.add(new Option(category,category));
+      const now=new Date();
+      upcomingEvents=events.filter(e=>e.status!=="CANCELLED" && eventEnd(e)>=now)
+        .sort((a,b)=>eventStart(a)-eventStart(b) || a.title.localeCompare(b.title));
+      const categories=[...new Set(upcomingEvents.map(e=>e.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+      categoryChips.querySelectorAll("button").forEach(button=>button.remove());
+      const all=el("button","chip","All types"); all.dataset.category=""; all.setAttribute("aria-pressed","true"); categoryChips.append(all);
+      for(const category of categories) {
+        const chip=el("button","chip",category); chip.dataset.category=category; chip.setAttribute("aria-pressed","false"); categoryChips.append(chip);
+      }
+      updateNextEvent();
       applyFilters();
     }
     searchInput.addEventListener("input",applyFilters);
-    categoryFilter.addEventListener("change",applyFilters);
-    document.getElementById("clear-filters").addEventListener("click",() => { searchInput.value=""; categoryFilter.value=""; applyFilters(); });
+    document.getElementById("date-chips").addEventListener("click",event=>{
+      const button=event.target.closest("button[data-range]"); if(!button)return;
+      selectedRange=button.dataset.range;
+      document.querySelectorAll("#date-chips button").forEach(chip=>chip.setAttribute("aria-pressed",String(chip===button)));
+      applyFilters();
+    });
+    categoryChips.addEventListener("click",event=>{
+      const button=event.target.closest("button[data-category]"); if(!button)return;
+      selectedCategory=button.dataset.category;
+      categoryChips.querySelectorAll("button").forEach(chip=>chip.setAttribute("aria-pressed",String(chip===button)));
+      applyFilters();
+    });
+    document.getElementById("clear-filters").addEventListener("click",()=>{
+      searchInput.value=""; selectedRange="all"; selectedCategory="";
+      document.querySelectorAll("#date-chips button").forEach(chip=>chip.setAttribute("aria-pressed",String(chip.dataset.range==="all")));
+      categoryChips.querySelectorAll("button").forEach(chip=>chip.setAttribute("aria-pressed",String(chip.dataset.category==="")));
+      applyFilters();
+    });
+    document.getElementById("list-view").addEventListener("click",()=>{
+      currentView="list"; document.getElementById("list-view").setAttribute("aria-pressed","true"); document.getElementById("month-view").setAttribute("aria-pressed","false"); monthNav.classList.add("hidden"); applyFilters();
+    });
+    document.getElementById("month-view").addEventListener("click",()=>{
+      currentView="month"; document.getElementById("list-view").setAttribute("aria-pressed","false"); document.getElementById("month-view").setAttribute("aria-pressed","true"); monthNav.classList.remove("hidden"); viewedMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1); applyFilters();
+    });
+    document.getElementById("prev-month").addEventListener("click",()=>{viewedMonth=new Date(viewedMonth.getFullYear(),viewedMonth.getMonth()-1,1);applyFilters();});
+    document.getElementById("next-month").addEventListener("click",()=>{viewedMonth=new Date(viewedMonth.getFullYear(),viewedMonth.getMonth()+1,1);applyFilters();});
     document.querySelector("footer").firstChild.textContent = `Times are shown in your browser's timezone (${browserTimeZone}). The calendar feed and this event list are generated from the league event schedule. `;
     const feedUrl = new URL("abl-events.ics",location.href).href;
     document.getElementById("feed-url").textContent = feedUrl;
