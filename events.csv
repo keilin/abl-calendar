@@ -19,6 +19,6 @@ id,title,description,start,end,all_day,timezone,location,category,status,recurre
 2027-free-agent-signing-date,Free Agent Signing Date,Teams may begin signing free agents,2027-01-31T09:00,2027-01-31T09:01,false,America/Los_Angeles,,Milestone,CONFIRMED
 2027-trade-deadline,Trade Deadline,Deadline for trades,2027-06-30T17:00,2027-06-30T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED
 2027-free-agent-signing-deadline,Free Agent Signing Deadline,Deadline for teams to sign free agents for the season,2027-07-01T17:00,2027-07-01T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-04T19:00,2027-02-04T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-10-28
-2027-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-02-05,2027-02-06,true,America/Los_Angeles,,Milestone,CONFIRMED,WEEKLY,2,2027-10-29
-2027-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek,2027-02-15T19:00,2027-02-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-11-08
+2027-taxi-teams-deadline,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-04T19:00,2027-02-04T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-09-02
+2027-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-02-05,2027-02-06,true,America/Los_Angeles,,Milestone,CONFIRMED,WEEKLY,2,2027-09-03
+2027-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek,2027-02-15T19:00,2027-02-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-09-13
