@@ -207,7 +207,7 @@
     }
     function render(events) {
       const now=new Date();
-      upcomingEvents=events.filter(e=>e.status!=="CANCELLED" && eventEnd(e)>=now)
+      upcomingEvents=events.filter(e=>e.status!=="CANCELLED" && eventEnd(e)>now)
         .sort((a,b)=>eventStart(a)-eventStart(b) || a.title.localeCompare(b.title));
       const categories=[...new Set(upcomingEvents.map(e=>e.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
       categoryChips.querySelectorAll("button").forEach(button=>button.remove());
