@@ -26,6 +26,11 @@
     .button.copy:focus-visible { outline:2px solid var(--red); outline-offset:2px; }
     #copy-status { flex-basis:auto; color:var(--muted); font-size:.72rem; text-align:left; }
     h2.section-title { margin:0 0 12px; font-size:1.35rem; }
+    .filters { display:grid; grid-template-columns:minmax(180px,1fr) minmax(150px,220px) auto; gap:10px; align-items:center; margin:0 0 14px; padding:12px; background:white; border:1px solid var(--line); border-radius:9px; }
+    .filters input,.filters select,.filters button { min-width:0; height:40px; padding:8px 11px; border:1px solid #cbd3dd; border-radius:6px; background:white; color:var(--ink); font:inherit; }
+    .filters button { cursor:pointer; font-weight:650; }
+    .filters button:hover { background:var(--paper); }
+    #filter-count { grid-column:1 / -1; color:var(--muted); font-size:.8rem; }
     #events { display:grid; gap:10px; }
     .event { display:grid; grid-template-columns:86px 1fr; gap:16px; padding:16px 18px; background:white; border:1px solid var(--line); border-radius:9px; }
     .date { color:var(--navy); font-weight:800; text-align:center; line-height:1.15; }
@@ -37,7 +42,7 @@
     .empty,.error { padding:20px; background:white; border:1px solid var(--line); border-radius:9px; color:var(--muted); }
     footer { margin-top:28px; color:var(--muted); font-size:.82rem; }
     code { overflow-wrap:anywhere; }
-    @media (max-width:520px) { .shell{padding:16px 12px 36px} header{gap:14px;padding:18px} .logo{width:72px;height:72px} .event{grid-template-columns:65px 1fr;padding:13px} }
+    @media (max-width:520px) { .shell{padding:16px 12px 36px} header{gap:14px;padding:18px} .logo{width:72px;height:72px} .event{grid-template-columns:65px 1fr;padding:13px} .filters{grid-template-columns:1fr 1fr} .filters input{grid-column:1 / -1} }
   </style>
 </head>
 <body>
@@ -51,6 +56,12 @@
       <div class="actions"><a class="button" href="abl-events.ics">Subscribe (.ics)</a><button class="button copy" id="copy-feed-url" type="button" aria-label="Copy calendar URL" title="Copy calendar URL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="13" height="13" rx="2"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></svg></button><span id="copy-status" role="status" aria-live="polite"></span></div>
     </section>
     <h2 class="section-title">Upcoming events</h2>
+    <div class="filters" role="search" aria-label="Filter upcoming events">
+      <input id="event-search" type="search" placeholder="Search events…" aria-label="Search event names and details">
+      <select id="category-filter" aria-label="Filter by category"><option value="">All categories</option></select>
+      <button id="clear-filters" type="button">Clear</button>
+      <span id="filter-count" aria-live="polite"></span>
+    </div>
     <section id="events" aria-live="polite"><p class="empty">Loading upcoming events…</p></section>
     <footer><span id="feed-url"></span></footer>
   </main>
@@ -65,13 +76,21 @@
       return Object.fromEntries(parts.map(p => [p.type,p.value]));
     }
     function el(tag, cls, text) { const node=document.createElement(tag); if(cls) node.className=cls; if(text) node.textContent=text; return node; }
-    function render(events) {
-      const now = Date.now();
-      const upcoming = events.filter(e => e.status !== "CANCELLED" && (e.all_day ? new Date(e.end+"T23:59:59").getTime() >= now : new Date(e.end).getTime() >= now))
-        .sort((a,b) => { const startA=a.all_day ? new Date(a.start+"T00:00:00") : new Date(a.start); const startB=b.all_day ? new Date(b.start+"T00:00:00") : new Date(b.start); return startA-startB || a.title.localeCompare(b.title); });
+    let upcomingEvents = [];
+    const searchInput = document.getElementById("event-search");
+    const categoryFilter = document.getElementById("category-filter");
+    const filterCount = document.getElementById("filter-count");
+    function applyFilters() {
+      const query = searchInput.value.trim().toLocaleLowerCase();
+      const category = categoryFilter.value;
+      const filtered = upcomingEvents.filter(event => {
+        const searchable = [event.title,event.description,event.location,event.category].filter(Boolean).join(" ").toLocaleLowerCase();
+        return (!query || searchable.includes(query)) && (!category || event.category === category);
+      });
+      filterCount.textContent = `Showing ${filtered.length} of ${upcomingEvents.length} upcoming events`;
       container.replaceChildren();
-      if (!upcoming.length) { container.append(el("p","empty","There are no upcoming events currently listed.")); return; }
-      for (const event of upcoming) {
+      if (!filtered.length) { container.append(el("p","empty",upcomingEvents.length ? "No events match those filters." : "There are no upcoming events currently listed.")); return; }
+      for (const event of filtered) {
         const card=el("article","event"), date=el("div","date");
         if(event.all_day) {
           const parts=dateParts(event.start+"T12:00:00");
@@ -91,6 +110,17 @@
         card.append(date,body); container.append(card);
       }
     }
+    function render(events) {
+      const now = Date.now();
+      upcomingEvents = events.filter(e => e.status !== "CANCELLED" && (e.all_day ? new Date(e.end+"T23:59:59").getTime() >= now : new Date(e.end).getTime() >= now))
+        .sort((a,b) => { const startA=a.all_day ? new Date(a.start+"T00:00:00") : new Date(a.start); const startB=b.all_day ? new Date(b.start+"T00:00:00") : new Date(b.start); return startA-startB || a.title.localeCompare(b.title); });
+      const categories = [...new Set(upcomingEvents.map(e => e.category).filter(Boolean))].sort((a,b) => a.localeCompare(b));
+      for (const category of categories) categoryFilter.add(new Option(category,category));
+      applyFilters();
+    }
+    searchInput.addEventListener("input",applyFilters);
+    categoryFilter.addEventListener("change",applyFilters);
+    document.getElementById("clear-filters").addEventListener("click",() => { searchInput.value=""; categoryFilter.value=""; applyFilters(); });
     document.querySelector("footer").firstChild.textContent = `Times are shown in your browser's timezone (${browserTimeZone}). The calendar feed and this event list are generated from the league event schedule. `;
     const feedUrl = new URL("abl-events.ics",location.href).href;
     document.getElementById("feed-url").textContent = feedUrl;
