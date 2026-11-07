@@ -38,6 +38,9 @@ Edit `events.csv` in GitHub's web interface (or locally and commit the change). 
 | `location` | No | Venue or meeting URL. |
 | `category` | No | E.g. `Meeting`, `Draft`, `Deadline`, `Administration`. |
 | `status` | No | `CONFIRMED`, `TENTATIVE`, or `CANCELLED`; defaults to `CONFIRMED`. |
+| `recurrence_frequency` | No | Recurrence frequency. Currently only `WEEKLY` is supported. |
+| `recurrence_interval` | No | Number of weeks between occurrences for `WEEKLY`; defaults to `1`. Must be a positive integer and requires `recurrence_frequency`. |
+| `recurrence_until` | No | Inclusive final date on which an occurrence may start, in `YYYY-MM-DD` format. Required when recurrence is specified. |
 
 ### Date/time format
 
@@ -47,6 +50,17 @@ Edit `events.csv` in GitHub's web interface (or locally and commit the change). 
 - For timed events, the generator converts local time to UTC. Calendar apps display it in each subscriber's local timezone.
 
 `events.example.csv` contains examples; copy rows into `events.csv` and replace the sample values.
+
+### Recurring events
+
+- Leave all three recurrence fields blank for a one-time event.
+- For a weekly series, set `recurrence_frequency` to `WEEKLY`, set `recurrence_interval` to the number of weeks between occurrences, and set `recurrence_until` to the inclusive date limit.
+- The first occurrence is the event's `start` and `end`. The generator expands subsequent occurrences through `recurrence_until`; each occurrence is published as a separate calendar event with a generated ID based on the original ID and occurrence date.
+- For recurring timed events, enter local wall-clock times without a UTC offset and set the `timezone`. The generator preserves that local time across daylight-saving changes. Recurring all-day events use calendar dates; their `end` remains exclusive.
+- To include a break in a series, split it into two rows: the first row ends with the last occurrence before the break, and the second row starts at the first occurrence after the break. Give the second row a different base `id`. The break itself can be added as a separate one-time event.
+- Recurrence exceptions, skipped individual dates, and monthly/yearly recurrence are not currently supported.
+
+Example: a biweekly series starting February 4, with occurrences every two weeks through April 22, uses `WEEKLY`, interval `2`, and `recurrence_until` `2027-04-22`.
 
 ### Changing or cancelling events
 
