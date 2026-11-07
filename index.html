@@ -62,7 +62,7 @@
     function render(events) {
       const now = Date.now();
       const upcoming = events.filter(e => e.status !== "CANCELLED" && (e.all_day ? new Date(e.end+"T23:59:59").getTime() >= now : new Date(e.end).getTime() >= now))
-        .sort((a,b) => new Date(a.start)-new Date(b.start));
+        .sort((a,b) => { const startA=a.all_day ? new Date(a.start+"T00:00:00") : new Date(a.start); const startB=b.all_day ? new Date(b.start+"T00:00:00") : new Date(b.start); return startA-startB || a.title.localeCompare(b.title); });
       container.replaceChildren();
       if (!upcoming.length) { container.append(el("p","empty","There are no upcoming events currently listed.")); return; }
       for (const event of upcoming) {
