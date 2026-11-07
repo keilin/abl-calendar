@@ -10,9 +10,14 @@
     * { box-sizing:border-box; }
     body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
     .shell { max-width:860px; margin:0 auto; padding:32px 20px 56px; }
-    header { position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:22px; padding:24px; background:var(--navy); color:white; border-radius:0 0 14px 14px; box-shadow:0 4px 12px rgb(16 43 78 / 18%); }
-    .logo { width:104px; height:104px; object-fit:contain; flex:none; }
-    h1 { margin:0; font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.1; letter-spacing:.02em; }
+    header { position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:22px; padding:24px; background:var(--navy); color:white; border-radius:0 0 14px 14px; box-shadow:0 4px 12px rgb(16 43 78 / 18%); transition:padding .2s ease,gap .2s ease,border-radius .2s ease; }
+    .logo { width:104px; height:104px; object-fit:contain; flex:none; transition:width .2s ease,height .2s ease; }
+    h1 { margin:0; font-size:clamp(1.8rem,5vw,2.6rem); line-height:1.1; letter-spacing:.02em; transition:font-size .2s ease; }
+    header.compact { gap:12px; padding:8px 18px; border-radius:0 0 9px 9px; }
+    header.compact .logo { width:48px; height:48px; }
+    header.compact h1 { font-size:1.35rem; }
+    header.compact .kicker { margin-bottom:2px; font-size:.62rem; }
+    header.compact p:last-child { display:none; }
     .kicker { margin:0 0 7px; color:#f2b9bc; font-size:.78rem; font-weight:750; letter-spacing:.16em; text-transform:uppercase; }
     header p:last-child { margin:9px 0 0; color:#d9e2ed; }
     .subscribe { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px; margin:22px 0 28px; padding:18px 20px; background:white; border:1px solid var(--line); border-left:5px solid var(--red); border-radius:10px; }
@@ -103,6 +108,11 @@
     <footer><span id="feed-url"></span></footer>
   </main>
   <script>
+    const stickyHeader = document.querySelector("header");
+    const compactThreshold = stickyHeader.offsetTop + 8;
+    function updateHeaderSize() { stickyHeader.classList.toggle("compact",window.scrollY > compactThreshold); }
+    window.addEventListener("scroll",updateHeaderSize,{passive:true});
+    updateHeaderSize();
     const container = document.getElementById("events");
     // Omitting timeZone makes Intl use the visitor's browser/system timezone.
     const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
