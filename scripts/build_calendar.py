@@ -7,7 +7,7 @@ import json
 import os
 import re
 import sys
-from datetime import date, datetime, timezone
+from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
@@ -91,21 +91,118 @@ def load_events():
             seen.add(event_id)
             all_day = parse_bool(row.get("all_day", ""), rownum)
             tz_name = (row.get("timezone") or "").strip() or DEFAULT_TZ
-            start = parse_event_time(row.get("start", ""), tz_name, all_day, rownum, "start")
-            end = parse_event_time(row.get("end", ""), tz_name, all_day, rownum, "end")
-            if end <= start:
-                raise ValueError(f"Row {rownum}: end must be after start")
+            start_text = (row.get("start") or "").strip()
+            end_text = (row.get("end") or "").strip()
+            frequency = (row.get("recurrence_frequency") or "").strip().upper()
+            interval_text = (row.get("recurrence_interval") or "").strip()
+            until_text = (row.get("recurrence_until") or "").strip()
+            if bool(frequency) != bool(until_text):
+                raise ValueError(f"Row {rownum}: recurrence_frequency and recurrence_until must be supplied together")
+            if frequency and frequency != "WEEKLY":
+                raise ValueError(f"Row {rownum}: only WEEKLY recurrence is currently supported")
+            try:
+                interval = int(interval_text) if interval_text else 1
+            except ValueError as exc:
+                raise ValueError(f"Row {rownum}: recurrence_interval must be a positive integer") from exc
+            if interval < 1:
+                raise ValueError(f"Row {rownum}: recurrence_interval must be a positive integer")
+            if not frequency and interval_text:
+                raise ValueError(f"Row {rownum}: recurrence_interval requires recurrence_frequency")
+
             status = (row.get("status") or "CONFIRMED").strip().upper()
             if status not in VALID_STATUS:
                 raise ValueError(f"Row {rownum}: status must be one of {', '.join(sorted(VALID_STATUS))}")
-            events.append({
-                "id": event_id, "title": title,
-                "description": (row.get("description") or "").strip(),
-                "start": start, "end": end, "all_day": all_day,
-                "location": (row.get("location") or "").strip(),
-                "category": (row.get("category") or "").strip(),
-                "status": status,
-            })
+
+            if all_day:
+                local_start = date.fromisoformat(start_text)
+                local_end = date.fromisoformat(end_text)
+                if local_end <= local_start:
+                    raise ValueError(f"Row {rownum}: end must be after start")
+                if frequency:
+                    until = date.fromisoformat(until_text)
+                    if until < local_start:
+                        raise ValueError(f"Row {rownum}: recurrence_until precedes the first occurrence")
+                    step = timedelta(days=7 * interval)
+                    occurrence = local_start
+                    while occurrence <= until:
+                        occurrence_end = local_end + (occurrence - local_start)
+                        occurrence_id = f"{event_id}-{occurrence:%Y%m%d}"
+                        if occurrence_id in seen:
+                            raise ValueError(f"Row {rownum}: duplicate generated id {occurrence_id!r}")
+                        seen.add(occurrence_id)
+                        events.append({
+                            "id": occurrence_id, "title": title,
+                            "description": (row.get("description") or "").strip(),
+                            "start": occurrence, "end": occurrence_end, "all_day": True,
+                            "location": (row.get("location") or "").strip(),
+                            "category": (row.get("category") or "").strip(),
+                            "status": status,
+                        })
+                        occurrence += step
+                else:
+                    start = local_start
+                    end = local_end
+                    if end <= start:
+                        raise ValueError(f"Row {rownum}: end must be after start")
+                    events.append({
+                        "id": event_id, "title": title,
+                        "description": (row.get("description") or "").strip(),
+                        "start": start, "end": end, "all_day": True,
+                        "location": (row.get("location") or "").strip(),
+                        "category": (row.get("category") or "").strip(),
+                        "status": status,
+                    })
+            else:
+                try:
+                    local_start = datetime.fromisoformat(start_text.replace("Z", "+00:00"))
+                    local_end = datetime.fromisoformat(end_text.replace("Z", "+00:00"))
+                except ValueError as exc:
+                    raise ValueError(f"Row {rownum}: invalid event datetime") from exc
+                if frequency and (local_start.tzinfo is not None or local_end.tzinfo is not None):
+                    raise ValueError(f"Row {rownum}: recurring timed events must use local wall times without UTC offsets")
+                if frequency:
+                    until = date.fromisoformat(until_text)
+                    if until < local_start.date():
+                        raise ValueError(f"Row {rownum}: recurrence_until precedes the first occurrence")
+                    duration = local_end - local_start
+                    if duration <= timedelta(0):
+                        raise ValueError(f"Row {rownum}: end must be after start")
+                    step = timedelta(days=7 * interval)
+                    occurrence = local_start
+                    while occurrence.date() <= until:
+                        occurrence_id = f"{event_id}-{occurrence:%Y%m%d}"
+                        if occurrence_id in seen:
+                            raise ValueError(f"Row {rownum}: duplicate generated id {occurrence_id!r}")
+                        seen.add(occurrence_id)
+                        occurrence_end = occurrence + duration
+                        start = parse_event_time(occurrence.isoformat(), tz_name, False, rownum, "start")
+                        end = parse_event_time(occurrence_end.isoformat(), tz_name, False, rownum, "end")
+                        events.append({
+                            "id": occurrence_id, "title": title,
+                            "description": (row.get("description") or "").strip(),
+                            "start": start, "end": end, "all_day": False,
+                            "location": (row.get("location") or "").strip(),
+                            "category": (row.get("category") or "").strip(),
+                            "status": status,
+                        })
+                        occurrence += step
+                else:
+                    start = parse_event_time(start_text, tz_name, False, rownum, "start")
+                    end = parse_event_time(end_text, tz_name, False, rownum, "end")
+                    if end <= start:
+                        raise ValueError(f"Row {rownum}: end must be after start")
+                    events.append({
+                        "id": event_id, "title": title,
+                        "description": (row.get("description") or "").strip(),
+                        "start": start, "end": end, "all_day": False,
+                        "location": (row.get("location") or "").strip(),
+                        "category": (row.get("category") or "").strip(),
+                        "status": status,
+                    })
+    events.sort(key=lambda event: (
+        datetime.combine(event["start"], time.min, tzinfo=timezone.utc)
+        if event["all_day"] else event["start"]
+    ))
     return events
 
 def build():
