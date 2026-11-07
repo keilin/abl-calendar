@@ -1,4 +1,4 @@
-id,title,description,start,end,all_day,timezone,location,category,status
+id,title,description,start,end,all_day,timezone,location,category,status,recurrence_frequency,recurrence_interval,recurrence_until
 2027-winter-meeting,Winter Meeting,Annual league meeting,2026-11-22T15:30,2026-11-22T17:00,false,America/Los_Angeles,Online,Meeting,TENTATIVE
 2026-roy-dc-announcement,ABL Rookie of the Year and Division Champion Celebrated,Public awards announcement,2026-11-09T17:00,2026-11-09T17:01,false,America/Los_Angeles,Online,Awards,CONFIRMED
 2026-moy-extra-effort-announcement,ABL Manager of the Year and Al Arthurs Extra Effort Manager of the Year,Public awards announcement,2026-11-10T17:00,2026-11-10T17:01,false,America/Los_Angeles,Online,Awards,CONFIRMED
@@ -16,66 +16,9 @@ id,title,description,start,end,all_day,timezone,location,category,status
 2027-free-agent-draft,Free Agent Draft Day,Free agent draft,2027-01-30T08:00,2027-01-30T14:00,false,America/Los_Angeles,Online,Draft,CONFIRMED
 2027-spring-training-deadline,Spring Training Games Deadline,Deadline to complete spring training games,2027-02-03T19:00,2027-02-03T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
 2027-regular-season-begins,Regular Season Begins,Beginning of the ABL regular season,2027-02-05T19:00,2027-02-05T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED
-2027-taxi-teams-deadline-2027-02-04,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-04T19:00,2027-02-04T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-02-18,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-18T19:00,2027-02-18T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-03-04,Taxi Teams Deadline,Deadline for taxi team submissions,2027-03-04T19:00,2027-03-04T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-03-18,Taxi Teams Deadline,Deadline for taxi team submissions,2027-03-18T19:00,2027-03-18T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-04-01,Taxi Teams Deadline,Deadline for taxi team submissions,2027-04-01T19:00,2027-04-01T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-04-15,Taxi Teams Deadline,Deadline for taxi team submissions,2027-04-15T19:00,2027-04-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-04-29,Taxi Teams Deadline,Deadline for taxi team submissions,2027-04-29T19:00,2027-04-29T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-05-13,Taxi Teams Deadline,Deadline for taxi team submissions,2027-05-13T19:00,2027-05-13T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-05-27,Taxi Teams Deadline,Deadline for taxi team submissions,2027-05-27T19:00,2027-05-27T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-06-10,Taxi Teams Deadline,Deadline for taxi team submissions,2027-06-10T19:00,2027-06-10T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-06-24,Taxi Teams Deadline,Deadline for taxi team submissions,2027-06-24T19:00,2027-06-24T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-07-08,Taxi Teams Deadline,Deadline for taxi team submissions,2027-07-08T19:00,2027-07-08T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-07-22,Taxi Teams Deadline,Deadline for taxi team submissions,2027-07-22T19:00,2027-07-22T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-08-05,Taxi Teams Deadline,Deadline for taxi team submissions,2027-08-05T19:00,2027-08-05T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-08-19,Taxi Teams Deadline,Deadline for taxi team submissions,2027-08-19T19:00,2027-08-19T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-09-02,Taxi Teams Deadline,Deadline for taxi team submissions,2027-09-02T19:00,2027-09-02T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-09-16,Taxi Teams Deadline,Deadline for taxi team submissions,2027-09-16T19:00,2027-09-16T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-09-30,Taxi Teams Deadline,Deadline for taxi team submissions,2027-09-30T19:00,2027-09-30T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-10-14,Taxi Teams Deadline,Deadline for taxi team submissions,2027-10-14T19:00,2027-10-14T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-taxi-teams-deadline-2027-10-28,Taxi Teams Deadline,Deadline for taxi team submissions,2027-10-28T19:00,2027-10-28T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-02-05-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-02-05,2027-02-06,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-02-15-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-02-05,2027-02-15T19:00,2027-02-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-02-19-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-02-19,2027-02-20,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-03-01-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-02-19,2027-03-01T19:00,2027-03-01T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-03-05-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-03-05,2027-03-06,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-03-15-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-03-05,2027-03-15T19:00,2027-03-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-03-19-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-03-19,2027-03-20,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-03-29-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-03-19,2027-03-29T19:00,2027-03-29T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-04-02-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-04-02,2027-04-03,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-04-12-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-04-02,2027-04-12T19:00,2027-04-12T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-04-16-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-04-16,2027-04-17,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-04-26-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-04-16,2027-04-26T19:00,2027-04-26T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-04-30-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-04-30,2027-05-01,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-05-10-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-04-30,2027-05-10T19:00,2027-05-10T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-05-14-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-05-14,2027-05-15,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-05-24-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-05-14,2027-05-24T19:00,2027-05-24T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-05-28-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-05-28,2027-05-29,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-06-07-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-05-28,2027-06-07T19:00,2027-06-07T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-06-11-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-06-11,2027-06-12,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-06-21-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-06-11,2027-06-21T19:00,2027-06-21T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-06-25-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-06-25,2027-06-26,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-07-05-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-06-25,2027-07-05T19:00,2027-07-05T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-07-09-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-07-09,2027-07-10,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-07-19-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-07-09,2027-07-19T19:00,2027-07-19T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-07-23-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-07-23,2027-07-24,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-08-02-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-07-23,2027-08-02T19:00,2027-08-02T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-08-06-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-08-06,2027-08-07,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-08-16-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-08-06,2027-08-16T19:00,2027-08-16T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-08-20-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-08-20,2027-08-21,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-08-30-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-08-20,2027-08-30T19:00,2027-08-30T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-09-03-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-09-03,2027-09-04,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-09-13-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-09-03,2027-09-13T19:00,2027-09-13T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-09-17-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-09-17,2027-09-18,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-09-27-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-09-17,2027-09-27T19:00,2027-09-27T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-10-01-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-10-01,2027-10-02,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-10-11-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-10-01,2027-10-11T19:00,2027-10-11T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-10-15-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-10-15,2027-10-16,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-10-25-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-10-15,2027-10-25T19:00,2027-10-25T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
-2027-10-29-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-10-29,2027-10-30,true,America/Los_Angeles,,Milestone,CONFIRMED
-2027-11-08-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek that began 2027-10-29,2027-11-08T19:00,2027-11-08T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED
 2027-free-agent-signing-date,Free Agent Signing Date,Teams may begin signing free agents,2027-01-31T09:00,2027-01-31T09:01,false,America/Los_Angeles,,Milestone,CONFIRMED
 2027-trade-deadline,Trade Deadline,Deadline for trades,2027-06-30T17:00,2027-06-30T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED
 2027-free-agent-signing-deadline,Free Agent Signing Deadline,Deadline for teams to sign free agents for the season,2027-07-01T17:00,2027-07-01T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED
+2027-taxi-teams-deadline,Taxi Teams Deadline,Deadline for taxi team submissions,2027-02-04T19:00,2027-02-04T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-10-28
+2027-playweek-start,Playweek Starts,Beginning of the ABL playweek,2027-02-05,2027-02-06,true,America/Los_Angeles,,Milestone,CONFIRMED,WEEKLY,2,2027-10-29
+2027-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek,2027-02-15T19:00,2027-02-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-11-08
