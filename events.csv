@@ -15,7 +15,7 @@ id,title,description,start,end,all_day,timezone,location,category,status,recurre
 2026-yearbook-article-deadline,Yearbook Article Submission Deadline,Deadline to submit yearbook articles,2026-12-15T19:00,2026-12-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
 2027-free-agent-draft,Free Agent Draft,Free agent draft,2027-01-30T08:00,2027-01-30T14:00,false,America/Los_Angeles,Online,Draft,CONFIRMED,,,
 2027-spring-training-deadline,Spring Training Games Deadline,Deadline to complete spring training games,2027-02-03T19:00,2027-02-03T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
-2027-regular-season-begins,Regular Season Begins,Beginning of the ABL regular season,2027-02-05T19:00,2027-02-05T19:01,true,America/Los_Angeles,,Milestone,CONFIRMED,,,
+2027-regular-season-begins,Regular Season Begins,Beginning of the ABL regular season,2027-02-05,2027-02-06,true,America/Los_Angeles,,Milestone,CONFIRMED,,,
 2027-free-agent-signing-date,Free Agent Signing Begins,Teams may begin signing free agents,2027-01-31T09:00,2027-01-31T09:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
 2027-trade-deadline,Trade Deadline,Deadline for trades,2027-06-30T17:00,2027-06-30T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
 2027-free-agent-signing-deadline,Free Agent Deadline,Deadline for teams to sign free agents for the season,2027-07-01T17:00,2027-07-01T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
