@@ -1,5 +1,5 @@
 id,title,description,start,end,all_day,timezone,location,category,status,recurrence_frequency,recurrence_interval,recurrence_until
-2027-winter-meeting,Winter Meetings,Annual league meeting,2026-11-22T15:30,2026-11-22T17:00,false,America/Los_Angeles,Online,Meeting,TENTATIVE,,,
+2027-winter-meeting,Winter Meeting,Annual league meeting,2026-11-22T15:30,2026-11-22T17:00,false,America/Los_Angeles,Online,Meeting,TENTATIVE,,,
 2026-roy-dc-announcement,ABL Rookie of the Year and Division Champion Celebrated,Public awards announcement,2026-11-09T17:00,2026-11-09T17:01,false,America/Los_Angeles,Online,Awards,CONFIRMED,,,
 2026-moy-extra-effort-announcement,ABL Manager of the Year and Al Arthurs Extra Effort Manager of the Year,Public awards announcement,2026-11-10T17:00,2026-11-10T17:01,false,America/Los_Angeles,Online,Awards,CONFIRMED,,,
 2026-poy-reliever-announcement,ABL Pitcher of the Year and ABL Relief Pitcher of the Year,Public awards announcement,2026-11-11T17:00,2026-11-11T17:01,false,America/Los_Angeles,Online,Awards,CONFIRMED,,,
@@ -10,12 +10,12 @@ id,title,description,start,end,all_day,timezone,location,category,status,recurre
 2026-expansion-team-deadline,Expansion Team Deadline,Deadline for expansion team matters,2026-11-15T19:00,2026-11-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
 2026-expansion-team-draft,Expansion Team Draft,Expansion team draft,2026-11-22T19:00,2026-11-22T20:00,false,America/Los_Angeles,Online,Draft,CONFIRMED,,,
 2026-franchise-players-deadline,Franchise Players Deadline,All franchise players must be selected for the upcoming season by 10:00 p.m. Eastern (7:00 p.m. Pacific),2026-12-10T19:00,2026-12-10T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
-2026-triple-play-cards-arrive,Triple Play Cards Arrive,Expected arrival of Triple Play cards,2026-12-10T19:00,2026-12-10T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
+2026-triple-play-cards-arrive,Triple Play Cards Arrive,Expected arrival of Triple Play cards,2026-11-13T19:00,2026-12-10T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
 2026-spring-training-begins,Spring Training Games Begin,Beginning of spring training games,2026-12-10T19:00,2026-12-10T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
 2026-yearbook-article-deadline,Yearbook Article Submission Deadline,Deadline to submit yearbook articles,2026-12-15T19:00,2026-12-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
 2027-free-agent-draft,Free Agent Draft,Free agent draft,2027-01-30T08:00,2027-01-30T14:00,false,America/Los_Angeles,Online,Draft,CONFIRMED,,,
 2027-spring-training-deadline,Spring Training Games Deadline,Deadline to complete spring training games,2027-02-03T19:00,2027-02-03T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
-2027-regular-season-begins,Regular Season Begins - Play Week 1,Beginning of the ABL regular season,2027-02-05T19:00,2027-02-05T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
+2027-regular-season-begins,Regular Season Begins,Beginning of the ABL regular season,2027-02-05T19:00,2027-02-05T19:01,true,America/Los_Angeles,,Milestone,CONFIRMED,,,
 2027-free-agent-signing-date,Free Agent Signing Begins,Teams may begin signing free agents,2027-01-31T09:00,2027-01-31T09:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
 2027-trade-deadline,Trade Deadline,Deadline for trades,2027-06-30T17:00,2027-06-30T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
 2027-free-agent-signing-deadline,Free Agent Deadline,Deadline for teams to sign free agents for the season,2027-07-01T17:00,2027-07-01T17:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
@@ -26,7 +26,7 @@ id,title,description,start,end,all_day,timezone,location,category,status,recurre
 2027-scoresheets-due,Scoresheets Due,Deadline to submit scoresheets for the playweek,2027-02-15T19:00,2027-02-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-05-24
 2027-scoresheets-due-part2,Scoresheets Due,Deadline to submit scoresheets for the playweek,2027-06-14T19:00,2027-06-14T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,WEEKLY,2,2027-09-20
 2027-all-star-break,All Star Break,ABL All Star Break,2027-05-24,2027-05-27,true,America/Los_Angeles,,Milestone,CONFIRMED,,,
-2026-triple-play-ratings-guide,Triple Play Ratings Guide Arrives,Expected arrival of Triple Play ratings guide,2026-11-15T19:00,2026-11-15T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
+2026-triple-play-ratings-guide,Triple Play Ratings Guide Arrives,Expected arrival of Triple Play ratings guide,2026-10-28T19:00,2026-10-28T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
 2026-stadium-team-names-deadline,Stadium and Team Names Deadline,Deadline to submit stadium and team names,2026-11-15T19:00,2026-11-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
 2027-free-agent-draft-drop-deadline,Free Agent Draft Drop Deadline,Deadline for free agent draft drops,2027-01-15T19:00,2027-01-15T19:01,false,America/Los_Angeles,,Deadline,CONFIRMED,,,
 2027-offseason-trading-begins,Off-Season Trading Period Begins,Beginning of the off-season trading period,2027-01-15T19:00,2027-01-15T19:01,false,America/Los_Angeles,,Milestone,CONFIRMED,,,
